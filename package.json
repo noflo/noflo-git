@@ -21,6 +21,7 @@
   },
   "noflo": {
     "components": {
+      "CloneRepository": "./components/CloneRepository.coffee"
     }
   },
   "scripts": {
