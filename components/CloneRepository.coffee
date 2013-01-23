@@ -31,15 +31,19 @@ class CloneRepository extends noflo.AsyncComponent
       repoDir
     ]
 
+    errors = []
+    request.on 'data', =>
+    request.on 'error', (err) =>
+      errors.push err
     request.on 'end', =>
+      if errors.length
+        @outPorts.out.disconnect()
+        return callback errors[1]
       @outPorts.out.beginGroup repo
       @outPorts.out.send @destination
       @outPorts.out.endGroup()
       @outPorts.out.disconnect()
       callback()
-    request.on 'error', (err) =>
-      @outPorts.out.disconnect()
-      callback err
     @outPorts.out.connect()
 
 exports.getComponent = -> new CloneRepository
