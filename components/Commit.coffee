@@ -35,7 +35,7 @@ class Commit extends noflo.AsyncComponent
       if errors.length
         @outPorts.out.disconnect()
         return callback errors[1]
-      @outPorts.out.beginGroup repo
+      @outPorts.out.beginGroup message
       @outPorts.out.send @repository
       @outPorts.out.endGroup()
       @outPorts.out.disconnect()
