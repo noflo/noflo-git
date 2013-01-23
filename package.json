@@ -23,7 +23,8 @@
     "components": {
       "CloneRepository": "./components/CloneRepository.coffee",
       "Add": "./components/Add.coffee",
-      "Commit": "./components/Commit.coffee"
+      "Commit": "./components/Commit.coffee",
+      "Push": "./components/Push.coffee"
     }
   },
   "scripts": {
