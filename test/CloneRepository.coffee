@@ -22,7 +22,7 @@ exports['test cloning a valid repository'] = (test) ->
 
   out.once 'data', (data) ->
     test.equal data, path
-    fs.exists "#{path}/create/package.json", (exists) ->
+    fs.exists "#{path}/package.json", (exists) ->
       test.ok exists
       test.done()
 

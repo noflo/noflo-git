@@ -1,5 +1,6 @@
 noflo = require 'noflo'
 gitgo = require 'gitgo'
+path = require 'path'
 
 class CloneRepository extends noflo.AsyncComponent
   constructor: ->
@@ -22,9 +23,12 @@ class CloneRepository extends noflo.AsyncComponent
       callback new Error 'no destination directory specified'
       return
 
-    request = gitgo @destination, [
+    rootDir = path.dirname @destination
+    repoDir = path.basename @destination
+    request = gitgo rootDir, [
       'clone'
       repo
+      repoDir
     ]
 
     request.on 'end', =>
