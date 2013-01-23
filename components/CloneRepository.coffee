@@ -5,6 +5,9 @@ path = require 'path'
 class CloneRepository extends noflo.AsyncComponent
   constructor: ->
     @destination = null
+    @ignores = [
+      'You appear to have cloned an empty repository'
+    ]
 
     @inPorts =
       in: new noflo.Port
@@ -34,6 +37,8 @@ class CloneRepository extends noflo.AsyncComponent
     errors = []
     request.on 'data', =>
     request.on 'error', (err) =>
+      for ignore in @ignores
+        return if err.message.indexOf(ignore) isnt -1
       errors.push err
     request.on 'end', =>
       if errors.length
