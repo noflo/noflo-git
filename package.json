@@ -3,13 +3,15 @@
   "description": "Git components for the NoFlo flow-based programming environment",
   "author": "Henri Bergius <henri.bergius@iki.fi>",
   "version": "0.0.3",
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/bergie/noflo/raw/master/LICENSE"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/bergie/noflo/raw/master/LICENSE"
+    }
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/noflo/noflo-git.git"
+    "type": "git",
+    "url": "https://github.com/noflo/noflo-git.git"
   },
   "engines": {
     "node": ">=0.8.0"
@@ -21,7 +23,8 @@
   "devDependencies": {
     "nodeunit": ">=0.6.0",
     "coffeelint": "*",
-    "coffee-script": "1.4.x"
+    "coffee-script": "1.4.x",
+    "mktemp": "^0.3.4"
   },
   "noflo": {
     "icon": "github-alt",

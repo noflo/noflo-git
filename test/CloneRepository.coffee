@@ -1,7 +1,7 @@
 component = require "../components/CloneRepository"
 socket = require('noflo').internalSocket
 fs = require 'fs'
-
+mktemp = require 'mktemp'
 
 setupComponent = ->
   c = component.getComponent()
@@ -17,17 +17,20 @@ setupComponent = ->
 
 exports['test cloning a valid repository'] = (test) ->
   [c, ins, dest, out, err] = setupComponent()
-  path = '/tmp/noflo-git-' + Math.floor(Math.random() * (1<<24))
-  fs.mkdirSync path
-
-  out.once 'data', (data) ->
-    test.equal data, path
-    fs.exists "#{path}/package.json", (exists) ->
-      test.ok exists
+  mktemp.createDir 'noflo-git-' + Math.floor(Math.random() * (1<<24)), (err, repoPath) ->
+    if err
+      test.ok false, 'Failed to create temp dir'
       test.done()
+      return
 
-  dest.send path
-  ins.send 'git://github.com/bergie/create.git'
+    out.once 'data', (data) ->
+      test.equal data, repoPath
+      fs.exists "#{repoPath}/package.json", (exists) ->
+        test.ok exists
+        test.done()
+
+    dest.send repoPath
+    ins.send 'git://github.com/bergie/create.git'
 
 exports['test cloning without destination'] = (test) ->
   [c, ins, dest, out, err] = setupComponent()
