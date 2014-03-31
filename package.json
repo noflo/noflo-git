@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "noflo": "0.5.x",
-    "gitgo": "0.0.x"
+    "gitgo": "0.4.x"
   },
   "devDependencies": {
     "nodeunit": ">=0.6.0",
