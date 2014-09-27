@@ -18,12 +18,12 @@
   },
   "dependencies": {
     "noflo": "0.5.x",
-    "gitgo": "0.4.x"
+    "gitgo": "0.5.x"
   },
   "devDependencies": {
     "nodeunit": ">=0.6.0",
     "coffeelint": "*",
-    "coffee-script": "1.4.x",
+    "coffee-script": "1.8.x",
     "mktemp": "^0.3.4"
   },
   "noflo": {
