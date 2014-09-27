@@ -38,7 +38,6 @@ class Add extends noflo.AsyncComponent
       @outPorts.out.beginGroup file
       @outPorts.out.send @repository
       @outPorts.out.endGroup()
-      @outPorts.out.disconnect()
       callback()
     @outPorts.out.connect()
 
