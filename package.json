@@ -17,14 +17,14 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "noflo": "0.5.x",
-    "gitgo": "0.5.x"
+    "noflo": "0.5.13",
+    "gitgo": "0.5.1"
   },
   "devDependencies": {
-    "nodeunit": ">=0.6.0",
-    "coffeelint": "*",
-    "coffee-script": "1.8.x",
-    "mktemp": "^0.3.4"
+    "nodeunit": "0.9.1",
+    "coffeelint": "1.12.1",
+    "coffee-script": "1.8.0",
+    "mktemp": "0.3.5"
   },
   "noflo": {
     "icon": "github-alt",
