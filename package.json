@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "noflo": "0.5.14",
-    "gitgo": "0.5.1"
+    "gitgo": "0.5.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
