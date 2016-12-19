@@ -2,7 +2,7 @@
   "name": "noflo-git",
   "description": "Git components for the NoFlo flow-based programming environment",
   "author": "Henri Bergius <henri.bergius@iki.fi>",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "repository": {
     "type": "git",
