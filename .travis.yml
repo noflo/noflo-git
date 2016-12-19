@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - "4.6"
+- '4.6'
 addons:
   apt:
     packages:
@@ -9,3 +9,11 @@ addons:
 before_script:
 - npm install -g grunt-cli
 script: npm test
+deploy:
+  provider: npm
+  email: henri.bergius@iki.fi
+  api_key:
+    secure: P8viJZLL8Yr5KULDmGHa5BwgXLGOe99o3vIBI+ZiFsxjb9AJt9lVJw2eKGZcGHc3sVOwzsO0+70T0yfHfYZiVmiheiF0lDFshL3MTt9p6Z9OZumq1v+iWh4LVuQwfxdmFLeWQD+mbMHPQk2IWYIwvqTsYwb/M5hV59YCP8lEL8c=
+  on:
+    tags: true
+    repo: noflo/noflo-git
