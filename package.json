@@ -22,7 +22,7 @@
     "grunt-coffeelint": "^0.0.16",
     "grunt-mocha-test": "^0.13.2",
     "mktemp": "^0.4.0",
-    "mocha": "^3.2.0"
+    "mocha": "^4.0.0"
   },
   "noflo": {
     "icon": "github-alt",
