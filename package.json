@@ -12,7 +12,7 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "noflo": "0.x >= 0.5",
+    "noflo": "1.0.0",
     "gitgo": "^0.5.3"
   },
   "devDependencies": {
