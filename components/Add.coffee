@@ -1,44 +1,31 @@
 noflo = require 'noflo'
 gitgo = require 'gitgo'
-path = require 'path'
 
-class Add extends noflo.AsyncComponent
-  constructor: ->
-    @repository = null
-
-    @inPorts =
-      in: new noflo.Port
-      repo: new noflo.Port
-    @outPorts =
-      out: new noflo.Port
-      error: new noflo.Port
-
-    @inPorts.repo.on 'data', (data) =>
-      @repository = data
-
-    super()
-
-  doAsync: (file, callback) ->
-    unless @repository
-      callback new Error 'no repository directory specified'
-      return
-
-    request = gitgo @repository, [
+exports.getComponent = ->
+  c = new noflo.Component
+  c.inPorts.add 'in',
+    datatype: 'string'
+    description: 'File to add'
+  c.inPorts.add 'repo',
+    datatype: 'string'
+    description: 'Repository directory path'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.process (input, output) ->
+    return unless input.hasData 'in', 'repo'
+    [file, repo] = input.getData 'in', 'repo'
+    request = gitgo repo, [
       'add'
       file
     ]
-
     errors = []
-    request.on 'error', (err) =>
+    request.on 'error', (err) ->
       errors.push err
-    request.on 'end', =>
+    request.on 'data', (data) ->
+    request.on 'end', ->
       if errors.length
-        @outPorts.out.disconnect()
-        return callback errors[1]
-      @outPorts.out.beginGroup file
-      @outPorts.out.send @repository
-      @outPorts.out.endGroup()
-      callback()
-    @outPorts.out.connect()
-
-exports.getComponent = -> new Add
+        output.done errors[0]
+        return
+      output.sendDone file

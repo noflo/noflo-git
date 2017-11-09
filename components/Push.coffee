@@ -1,50 +1,37 @@
 noflo = require 'noflo'
 gitgo = require 'gitgo'
 
-class Push extends noflo.AsyncComponent
-  constructor: ->
-    @repository = null
-    @local = 'master'
-
-    @inPorts =
-      local: new noflo.Port
-      remote: new noflo.Port
-      repo: new noflo.Port
-    @outPorts =
-      out: new noflo.Port
-      error: new noflo.Port
-
-    @inPorts.repo.on 'data', (data) =>
-      @repository = data
-
-    @inPorts.local.on 'data', (data) =>
-      @local = data
-
-    super 'remote'
-
-  doAsync: (remote, callback) ->
-    unless @repository
-      callback new Error 'no repository directory specified'
-      return
-
-    request = gitgo @repository, [
+exports.getComponent = ->
+  c = new noflo.Component
+  c.inPorts.add 'repo',
+    datatype: 'string'
+    description: 'Repository directory path'
+  c.inPorts.add 'remote',
+    datatype: 'string'
+    description: 'Repository URL'
+  c.inPorts.add 'local',
+    datatype: 'string'
+    description: 'Branch name'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    repo: ['out', 'error']
+  c.process (input, output) ->
+    return unless input.hasData 'repo', 'remote', 'local'
+    [repo, remote, branch] = input.getData 'repo', 'remote', 'local'
+    request = gitgo repo, [
       'push'
       remote
-      @local
+      branch
     ]
-
     errors = []
-    request.on 'error', (err) =>
+    request.on 'error', (err) ->
       errors.push err
-    request.on 'end', =>
+    request.on 'data', (data) ->
+    request.on 'end', ->
       if errors.length
-        @outPorts.out.disconnect()
-        return callback errors[1]
-      @outPorts.out.beginGroup remote
-      @outPorts.out.send @repository
-      @outPorts.out.endGroup()
-      @outPorts.out.disconnect()
-      callback()
-    @outPorts.out.connect()
-
-exports.getComponent = -> new Push
+        output.done errors[0]
+        return
+      output.sendDone repo
