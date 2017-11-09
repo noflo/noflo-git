@@ -28,7 +28,6 @@ describe 'CloneRepository component', ->
     err = noflo.internalSocket.createSocket()
     c.outPorts.error.attach err
   afterEach ->
-    dest.send null
     c.outPorts.out.detach out
     out = null
     c.outPorts.error.detach err
@@ -37,19 +36,14 @@ describe 'CloneRepository component', ->
   describe 'cloning a valid repository', ->
     it 'should succeed', (done) ->
       @timeout 20000
-      mktemp.createDir 'noflo-git-' + Math.floor(Math.random() * (1<<24)), (err, repoPath) ->
-        return done err if err
+      mktemp.createDir 'noflo-git-' + Math.floor(Math.random() * (1<<24)), (error, repoPath) ->
+        return done error if error
 
         out.on 'data', (data) ->
           chai.expect(data).to.equal repoPath
           fs.exists "#{repoPath}/package.json", (exists) ->
             chai.expect(exists).to.equal true
             done()
+        err.on 'data', done
         dest.send repoPath
-        ins.send 'git://github.com/bergie/create.git'
-  describe 'cloning without destination', ->
-    it 'should fail', (done) ->
-      err.on 'data', (data) ->
-        chai.expect(data).to.be.an 'error'
-        done()
-      ins.send 'git://github.com/bergie/create.git'
+        ins.send 'https://github.com/noflo/noflo-git.git'
