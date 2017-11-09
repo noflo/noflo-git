@@ -6,8 +6,6 @@ addons:
   apt:
     packages:
     - git
-before_script:
-- npm install -g grunt-cli
 script: npm test
 deploy:
   provider: npm
