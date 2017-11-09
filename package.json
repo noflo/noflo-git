@@ -12,7 +12,7 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "noflo": "1.0.0",
+    "noflo": "^1.0.0",
     "gitgo": "^0.5.3"
   },
   "devDependencies": {
@@ -25,13 +25,7 @@
     "mocha": "^4.0.0"
   },
   "noflo": {
-    "icon": "github-alt",
-    "components": {
-      "CloneRepository": "./components/CloneRepository.coffee",
-      "Add": "./components/Add.coffee",
-      "Commit": "./components/Commit.coffee",
-      "Push": "./components/Push.coffee"
-    }
+    "icon": "github-alt"
   },
   "scripts": {
     "test": "grunt test"
