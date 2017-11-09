@@ -9,31 +9,24 @@
     "url": "https://github.com/noflo/noflo-git.git"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=6"
   },
   "dependencies": {
-    "noflo": "0.x >= 0.5",
+    "noflo": "^1.0.0",
     "gitgo": "^0.5.3"
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "coffee-script": "^1.12.1",
-    "grunt": "^1.0.1",
-    "grunt-coffeelint": "^0.0.16",
-    "grunt-mocha-test": "^0.13.2",
+    "coffeelint": "^2.0.7",
+    "coffeescript": "^2.0.2",
     "mktemp": "^0.4.0",
     "mocha": "^4.0.0"
   },
   "noflo": {
-    "icon": "github-alt",
-    "components": {
-      "CloneRepository": "./components/CloneRepository.coffee",
-      "Add": "./components/Add.coffee",
-      "Commit": "./components/Commit.coffee",
-      "Push": "./components/Push.coffee"
-    }
+    "icon": "github-alt"
   },
   "scripts": {
-    "test": "grunt test"
+    "pretest": "coffeelint -f .coffeelint.json -r components",
+    "test": "mocha --require coffeescript/register -R spec -t 2000 spec/*.coffee"
   }
 }

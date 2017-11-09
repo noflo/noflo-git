@@ -1,45 +1,32 @@
 noflo = require 'noflo'
 gitgo = require 'gitgo'
 
-class Commit extends noflo.AsyncComponent
-  constructor: ->
-    @repository = null
-
-    @inPorts =
-      in: new noflo.Port
-      repo: new noflo.Port
-    @outPorts =
-      out: new noflo.Port
-      error: new noflo.Port
-
-    @inPorts.repo.on 'data', (data) =>
-      @repository = data
-
-    super()
-
-  doAsync: (message, callback) ->
-    unless @repository
-      callback new Error 'no repository directory specified'
-      return
-
-    request = gitgo @repository, [
+exports.getComponent = ->
+  c = new noflo.Component
+  c.inPorts.add 'in',
+    datatype: 'string'
+    description: 'Commit message'
+  c.inPorts.add 'repo',
+    datatype: 'string'
+    description: 'Repository directory path'
+  c.outPorts.add 'out',
+    datatype: 'string'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.process (input, output) ->
+    return unless input.hasData 'in', 'repo'
+    [message, repo] = input.getData 'in', 'repo'
+    request = gitgo repo, [
       'commit'
       '-m'
       message
     ]
-
     errors = []
-    request.on 'error', (err) =>
+    request.on 'error', (err) ->
       errors.push err
-    request.on 'end', =>
+    request.on 'data', (data) ->
+    request.on 'end', ->
       if errors.length
-        @outPorts.out.disconnect()
-        return callback errors[1]
-      @outPorts.out.beginGroup message
-      @outPorts.out.send @repository
-      @outPorts.out.endGroup()
-      @outPorts.out.disconnect()
-      callback()
-    @outPorts.out.connect()
-
-exports.getComponent = -> new Commit
+        output.done errors[0]
+        return
+      output.sendDone message
