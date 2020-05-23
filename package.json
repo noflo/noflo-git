@@ -20,7 +20,7 @@
     "coffeelint": "^2.0.7",
     "coffeescript": "^2.0.2",
     "mktemp": "^0.4.0",
-    "mocha": "^6.0.0"
+    "mocha": "^7.2.0"
   },
   "noflo": {
     "icon": "github-alt"
